@@ -278,14 +278,10 @@ class ModelBsmMC:
         stock_price_T = stock_price_series[-1, :]
 
         option_price = []
-        if cp_sign == 1:
-            for each in strike:
-                option_price.append(np.mean(np.maximum(stock_price_T - each, 0)))
-        else:
-            for each in strike:
-                option_price.append(np.mean(np.maximum(each - stock_price_T, 0)))
+        for each in strike:
+            option_price.append(np.mean(np.maximum(cp_sign*(stock_price_T - each), 0)))
       
-        return np.array(option_price)
+        return np.exp(-texp*self.intr) * np.array(option_price)
 
 '''
 MC model class for Beta=0
@@ -352,14 +348,10 @@ class ModelNormalMC:
         stock_price_T = stock_price_series[-1, :]
 
         option_price = []
-        if cp_sign == 1:
-            for each in strike:
-                option_price.append(np.mean(np.maximum(stock_price_T - each, 0)))
-        else:
-            for each in strike:
-                option_price.append(np.mean(np.maximum(each - stock_price_T, 0)))
+        for each in strike:
+            option_price.append(np.mean(np.maximum(cp_sign*(stock_price_T - each), 0)))
         
-        return np.array(option_price)
+        return np.exp(-texp*self.intr) * np.array(option_price)
 
 '''
 Conditional MC model class for Beta=1
